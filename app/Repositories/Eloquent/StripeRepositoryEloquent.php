@@ -2,11 +2,11 @@
 
 namespace App\Repositories\Eloquent;
 
-use Prettus\Repository\Eloquent\BaseRepository;
-use Prettus\Repository\Criteria\RequestCriteria;
+use App\Models\Stripe;
 use App\Repositories\Contracts\StripeRepository;
-use App\Entities\Stripe;
 use App\Validators\StripeValidator;
+use Prettus\Repository\Criteria\RequestCriteria;
+use Prettus\Repository\Eloquent\BaseRepository;
 
 /**
  * Class StripeRepositoryEloquent.
@@ -25,7 +25,7 @@ class StripeRepositoryEloquent extends BaseRepository implements StripeRepositor
         return Stripe::class;
     }
 
-    
+
 
     /**
      * Boot up the repository, pushing criteria
@@ -34,5 +34,5 @@ class StripeRepositoryEloquent extends BaseRepository implements StripeRepositor
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-    
+
 }

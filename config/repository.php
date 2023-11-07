@@ -232,7 +232,7 @@ return [
         'rootNamespace' => 'App\\',
         'stubsOverridePath' => app()->path(),
         'paths'         => [
-            'models'       => 'Entities',
+            'models'       => 'Models',
             'repositories' => 'Repositories/Eloquent',
             'interfaces'   => 'Repositories/Contracts',
             'transformers' => 'Transformers',

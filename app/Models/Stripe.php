@@ -1,20 +1,18 @@
 <?php
 
-namespace App\Entities;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * Class User.
+ * Class Stripe.
  *
  * @package namespace App\Entities;
  */
-class User extends Model implements Transformable
+class Stripe extends Model
 {
-    use TransformableTrait;
-
     /**
      * The attributes that are mass assignable.
      *
