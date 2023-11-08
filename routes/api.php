@@ -27,3 +27,5 @@ Route::prefix('auth')->group(function () {
         Route::get('/me', [AuthController::class, 'profile']);
     });
 });
+
+Route::group([], base_path('routes/api/stripe.php'));
