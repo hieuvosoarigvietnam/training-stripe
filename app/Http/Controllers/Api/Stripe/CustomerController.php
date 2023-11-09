@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Api\Stripe;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Stripe\AddCardRequest;
 use App\Http\Requests\Stripe\UpdateCustomerRequest;
+use App\Services\Stripe\AddCardService;
 use Illuminate\Http\Request;
+use Stripe\Exception\ApiErrorException;
+use Stripe\StripeClient;
 
 class CustomerController extends Controller
 {
@@ -18,7 +22,7 @@ class CustomerController extends Controller
     {
         $user = $request->user();
 
-         return  $user->createOrGetStripeCustomer();
+        return $user->createOrGetStripeCustomer();
     }
 
     /**
@@ -31,7 +35,7 @@ class CustomerController extends Controller
     {
         $user = $request->user();
 
-        return $user->balance();
+        return $user->createSetupIntent();
     }
 
     /**
@@ -46,5 +50,56 @@ class CustomerController extends Controller
         $option = $request->validated();
 
         return $user->updateStripeCustomer($option);
+    }
+
+    /**
+     * Add card to customer
+     *
+     * @param AddCardRequest $request
+     * @param AddCardService $service
+     * @return \Stripe\Account|\Stripe\BankAccount|\Stripe\Card|\Stripe\Source
+     * @throws ApiErrorException
+     */
+    public function addCard(AddCardRequest $request, AddCardService $service)
+    {
+        return $service->handle($request);
+    }
+
+    /**
+     * Purchase
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function purchase(Request $request)
+    {
+        $stripe = new StripeClient($_ENV['STRIPE_SECRET']);
+
+        $user = $request->user()->createOrGetStripeCustomer();
+
+//         Payment with PaymentMethod
+        $payment = $request->user()->charge(
+            100, $user->invoice_settings->default_payment_method // or paymentMethodId
+        );
+
+        // Creating Payment Intents
+//        $payment = $request->user()->pay(
+//            1000
+//        );
+
+        return $payment;
+    }
+
+    /**
+     * get invoices
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function invoices(Request $request)
+    {
+        $user = $request->user();
+
+        return $user->invoices();
     }
 }
