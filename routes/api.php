@@ -29,3 +29,4 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::group([], base_path('routes/api/stripe.php'));
+Route::group([], base_path('routes/api/square.php'));

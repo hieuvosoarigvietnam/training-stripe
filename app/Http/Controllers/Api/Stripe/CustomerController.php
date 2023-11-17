@@ -78,14 +78,22 @@ class CustomerController extends Controller
         $user = $request->user()->createOrGetStripeCustomer();
 
 //         Payment with PaymentMethod
-        $payment = $request->user()->charge(
-            100, $user->invoice_settings->default_payment_method // or paymentMethodId
-        );
+//        $payment = $request->user()->charge(
+//            100, $user->invoice_settings->default_payment_method // or paymentMethodId
+//        );
 
         // Creating Payment Intents
-//        $payment = $request->user()->pay(
-//            1000
-//        );
+        $payment = $request->user()->pay(
+            1000
+        );
+
+        // pay the Payment Intents
+//        $payment = $stripe->paymentIntents->confirm(
+//            'pi_3OATrzKFDlquYgjA09a77NG1',
+//            [
+//                'payment_method' => 'card_1OA7uDKFDlquYgjAmvu1kxO6',
+//                'return_url' => 'http://127.0.0.1:8000/api/orders' //must have redirect url
+//            ]);
 
         return $payment;
     }
